@@ -1,4 +1,4 @@
-#include "map.h"
+#include "include.h"
 
 /*======================= READ ===========================================*/
 void readMAP(char* filename, char arr[SIZE][SIZE])
