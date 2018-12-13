@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-#define SIZE 1000
-#define START_X 5
-#define START_Y 5
-#define EDGE 3
+#include "map.h"
 
 /*======================= READ ===========================================*/
 void readMAP(char* filename, char arr[SIZE][SIZE])
@@ -40,7 +33,7 @@ void printMapToFile(char* filename, char arr[SIZE][SIZE])
 
 void printHashtags()
 {
-    FILE* f = fopen("hashtagmap.mp", "w");
+    FILE* f = fopen("RandomMap.mp", "w");
     for(int i = 0; i < SIZE; i++)
     {
         for(int j = 0; j < SIZE; j++)
@@ -107,23 +100,19 @@ void clearKorridor(char arr[SIZE][SIZE], int *x, int *y, int size)
     }
 }
 
-int main()
+void makeMap(int x, int y, int size, int nCats, int nCheeses)
 {
-    int x = 5, y = 5;
-    int size = 100;
     int nKorridors = size * 2;
-    int nCats = 5;
-    int nCheeses = 10;
     srand(time(0));
     char arr[SIZE][SIZE];
     printHashtags();
-    readMAP("hashtagmap.mp", arr);
+    readMAP("RandomMap.mp", arr);
     arr[x][y] = 'M';
     for(int i = 0; i < nKorridors; i++)
     {
         //getchar();
         clearKorridor(arr, &x, &y, size);
-        if(i % (nKorridors / nCats) == 1)
+        if(i % (nKorridors / nCats) == 4)
         {
             arr[x][y] = 'C';
         }
@@ -132,5 +121,5 @@ int main()
             arr[x][y] = 'o';
         }
     }
-    printMapToFile("printedmap.mp", arr);
+    printMapToFile("RandomMap.mp", arr);
 }
