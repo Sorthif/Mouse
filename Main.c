@@ -1,40 +1,54 @@
 #include <stdio.h>
-#include <string.h>;
-#define MAPSIZE 22
+#include <string.h>
+#include <time.h>
+#include "map.h"
+#define MAPSIZE 1000
 
 void buildMapLevel1(char map[][MAPSIZE]) {
 	FILE *fp;
-	fp = fopen("Level1.txt", "r");
+	fp = fopen("RandomMap.mp", "r");
 	if (fp == NULL)
 		exit(1);
 
 	for (int i = 0; i < MAPSIZE; i++) {
-		for (int j = 0; j <= MAPSIZE; j++) {
+		for (int j = 0; j < MAPSIZE; j++) {
 			fscanf(fp, "%c", &map[i][j]);
 		}
 	}
-	fp = fclose;
+	fclose(fp);
 }
+
 void printUI(int *points) {
 	printf("\nPoints: %4d\n", *points);
 }
 
-void printSeeableMap(char map[][MAPSIZE], int *ys, int *ye, int *xs, int *xe) { // Y start, Y end, X start, X end.
-	for (int i = *ys; i < *ye; i++) { // Y axis coordinates
+void printWholeMap(char map[][MAPSIZE]) {
+	for (int i = 0; i < MAPSIZE; i++) {
 		printf("\n");
-		for (int j = *xs; j < *xe; j++) // X axis coordinates
+		for (int j = 0; j < MAPSIZE; j++)
 			printf("%c", map[i][j]);
 	}
-	//printf("\n");
-	//for (int i = 0; i < MAPSIZE; i++) { 
+}
+
+void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y start, Y end, X start, X end.
+	//for (int i = ys; i < ye; i++) { // Y axis coordinates
 	//	printf("\n");
-	//	for (int j = 0; j < MAPSIZE; j++) // Use when you need to print whole map.
+	//	for (int j = xs; j < xe; j++) // X axis coordinates
 	//		printf("%c", map[i][j]);
 	//}
+	printWholeMap(map); // Use when you need to print whole map.
+}
+
+void gameLost(char map[][MAPSIZE], int points) {
+	system("cls");
+	printWholeMap(map);
+	printf("\nYou lost!\nYou got %3d points!.", points);
+	getchar();
+	exit(1);
 }
 
 void moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int *ye, int *xs, int *xe, int *points) {
-	printSeeableMap(map, ys, ye, xs, xe);
+	printSeeableMap(map, *ys, *ye, *xs, *xe);
 	printUI(points);
 	*movement = getche();
 	switch (*movement) {
@@ -46,6 +60,9 @@ void moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int
 		(*x)--;
 		if (map[*y][*x] == 'o')
 			*points = *points + 100;
+		if (map[*y][*x] == 'C') {
+			gameLost(map, *points);
+		}
 		(*xs)--;
 		(*xe)--;
 		map[*y][*x] = 'M';
@@ -58,6 +75,9 @@ void moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int
 		(*y)++;
 		if (map[*y][*x] == 'o')
 			*points = *points + 100;
+		if (map[*y][*x] == 'C') {
+			gameLost(map, *points);
+		}
 		(*ys)++;
 		(*ye)++;
 		map[*y][*x] = 'M';
@@ -70,6 +90,9 @@ void moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int
 		(*y)--;
 		if (map[*y][*x] == 'o')
 			*points = *points + 100;
+		if (map[*y][*x] == 'C') {
+			gameLost(map, *points);
+		}
 		(*ys)--;
 		(*ye)--;
 		map[*y][*x] = 'M';
@@ -82,74 +105,135 @@ void moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int
 		(*x)++;
 		if (map[*y][*x] == 'o')
 			*points = *points + 100;
+		if (map[*y][*x] == 'C') {
+			gameLost(map, *points);
+		}
 		(*xs)++;
 		(*xe)++;	
 		map[*y][*x] = 'M';
 		break;
 	}
 }
-// Implement random movement!
-void NPCmovement(char map[][MAPSIZE], int *x, int *y) {
-	int movement;
-	switch (movement) {
-	case '1':
-		if (map[*y][*x - 1] == '#') {
+
+int randomMovementGenerator(int num1, int num2, int lastmoved) {
+	int lower = num1, upper = num2;
+	int num = (rand() % (upper - lower + 1)) + lower;
+
+	return num;
+}
+
+void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMoved) {
+	_Bool moveSuccessfull = 0, checkLastMoved = 0;
+	int movement; 
+	while (moveSuccessfull == 0) {
+		if (checkLastMoved == 0) {
+			movement = *lastMoved;
+		}
+		else
+			movement = randomMovementGenerator(1, 100, *lastMoved);
+		switch (movement) {
+		case 1: // Left
+			if (map[*y][*x - 1] == '#') {
+				checkLastMoved = 1;
+				break;
+			}
+			if (map[*y][*x - 1] == 'o') {
+				checkLastMoved = 1;
+				break;
+			}
+			map[*y][*x] = ' ';
+			(*x)--;
+			if (map[*y][*x] == 'M') {
+				gameLost(map, *points);
+			}
+			map[*y][*x] = 'C';
+			moveSuccessfull = 1;
+			*lastMoved = 1;
+			break;
+		case 2: // Down
+			if (map[*y + 1][*x] == '#') {
+				checkLastMoved = 1;
+				break;
+			}
+			if (map[*y][*x - 1] == 'o') {
+				checkLastMoved = 1;
+				break;
+			}
+			map[*y][*x] = ' ';
+			(*y)++;
+			if (map[*y][*x] == 'M') {
+				gameLost(map, *points);
+			}
+			map[*y][*x] = 'C';
+			moveSuccessfull = 1;
+			*lastMoved = 2;
+			break;
+		case 3: // Up
+			if (map[*y - 1][*x] == '#') {
+				checkLastMoved = 1;
+				break;
+			}
+			if (map[*y][*x - 1] == 'o') {
+				checkLastMoved = 1;
+				break;
+			}
+			map[*y][*x] = ' ';
+			(*y)--;
+			if (map[*y][*x] == 'M') {
+				gameLost(map, *points);
+			}
+			map[*y][*x] = 'C';
+			moveSuccessfull = 1;
+			*lastMoved = 3;
+			break;
+		case 4: // Right
+			if (map[*y][*x + 1] == '#') {
+				checkLastMoved = 1;
+				break;
+			}
+			if (map[*y][*x - 1] == 'o') {
+				checkLastMoved = 1;
+				break;
+			}
+			map[*y][*x] = ' ';
+			(*x)++;
+			if (map[*y][*x] == 'M') {
+				gameLost(map, *points);
+			}
+			map[*y][*x] = 'C';
+			moveSuccessfull = 1;
+			*lastMoved = 4;
 			break;
 		}
-		map[*y][*x] = ' ';
-		(*x)--;
-		if (map[*y][*x] == 'M') {
-
-		}
-		map[*y][*x] = 'C';
-		break;
-	case '2':
-		if (map[*y + 1][*x] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*y)++;
-		if (map[*y][*x] == 'M') {
-
-		}
-		map[*y][*x] = 'C';
-		break;
-	case '3':
-		if (map[*y - 1][*x] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*y)--;
-		if (map[*y][*x] == 'M') {
-
-		}
-		map[*y][*x] = 'C';
-		break;
-	case '4':
-		if (map[*y][*x + 1] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*x)++;
-		if (map[*y][*x] == 'M') {
-
-		}
-		map[*y][*x] = 'C';
-		break;
 	}
 }
 
+void getSpawnLocations(char map[][MAPSIZE], int arr[20]) {
+	int location = 0;
+	for (int i = 0; i < MAPSIZE; i++) {
+		for (int j = 0; j < MAPSIZE; j++) {
+			if (map[i][j] == 'C' || map[i][j] == 'M') {
+				arr[location] = j;
+				arr[location + 1] = i;
+				location = location + 2;
+			}
+		}
+	}
+}
 
 int main(void) {
 
-	char map[MAPSIZE][MAPSIZE], *movement = 's';
+	char map[MAPSIZE][MAPSIZE], movement = ' ';
+	srand(time(0));
+	makeMap(5, 5, 100, 10, 20);
+	buildMapLevel1(map);
+	int spawnLocations[20]; 
+	getSpawnLocations(map, spawnLocations);
 
-	buildMapLevel1(&map);
-	
-	int x = 5, y = 5, seeableMapYS = 3, seeableMapYE = 8, seeableMapXS = 3, seeableMapXE = 8, points = 0;
-	int AI1X = 13, AI1Y = 8, AI2X = 7, AI2Y = 15; // NPC startlocation.
-	map[y][x] = 'M'; // Mouse startlocation.
-	map[AI1Y][AI1X] = 'C', map[AI2Y][AI2X] = 'C';
+	// YS = Y start, YE = Y end, XS = X start, XE = X end.
+	int x = spawnLocations[0], y = spawnLocations[1], seeableMapYS = y - 3, seeableMapYE = y + 4, seeableMapXS = x - 3, seeableMapXE = x + 4, points = 0;
+	int AI1X = spawnLocations[2], AI1Y = spawnLocations[3], AI2X = spawnLocations[4], AI2Y = spawnLocations[5]; // NPC startlocation.
+	int lastMovedAI1 = 1, lastMovedAI2 = 1;
 	while (1) {
 		if (points == 800) {
 			printf("Congratulations! You won!\nPoints earned: %d", points);
@@ -157,9 +241,10 @@ int main(void) {
 			break;
 		}
 		system("cls");
-		moveMouse(&map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points);
-	/*	NPCmovement(&map, &AI1X, &AI1Y);
-		NPCmovement(&map, &AI2X, &AI2Y);*/
+		moveMouse(map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points);
+		NPCmovement(map, &AI1X, &AI1Y, &points, &lastMovedAI1);
+		NPCmovement(map, &AI2X, &AI2Y, &points, &lastMovedAI2);
+
 	}
 
 
