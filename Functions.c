@@ -38,7 +38,7 @@ void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y
 }
 
 void gameLost(char map[][MAPSIZE], int points) {
-	system("cls");
+	CLEAR;
 	//printWholeMap(map);
 	printf("\nYou lost!\nYou got %3d points!.", points);
 	getchar();

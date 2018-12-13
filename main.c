@@ -12,7 +12,7 @@ int main(void) {
 	getSpawnLocations(map, spawnLocations);
 
 	// YS = Y start, YE = Y end, XS = X start, XE = X end.
-	int x = spawnLocations[0], y = spawnLocations[1], seeableMapYS = y - 3, seeableMapYE = y + 4, seeableMapXS = x - 3, seeableMapXE = x + 4, points = 0;
+	int x = spawnLocations[0], y = spawnLocations[1], seeableMapYS = y - WINDOW, seeableMapYE = y + WINDOW + 1, seeableMapXS = x - WINDOW, seeableMapXE = x + WINDOW + 1, points = 0;
 	cats[0].x = spawnLocations[2], cats[0].y = spawnLocations[3], cats[1].x = spawnLocations[4], cats[1].y = spawnLocations[5]; // NPC startlocation.
 	for (int i = 0; i < numbOfCats; i++)
 		cats[i].lastMoved = 1;
@@ -23,7 +23,7 @@ int main(void) {
 			getchar();
 			break;
 		}
-		system("cls");
+		CLEAR;
 		moveMouse(map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points);
 		for (int i = 0; i < numbOfCats; i++) {
 			NPCmovement(map, &cats[i].x, &cats[i].y, &points, &cats[i].lastMoved);

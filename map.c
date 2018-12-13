@@ -1,4 +1,5 @@
 #include "include.h"
+#include "map.h"
 
 /*======================= READ ===========================================*/
 void readMAP(char* filename, char arr[SIZE][SIZE])
@@ -59,11 +60,11 @@ void clearKorridor(char arr[SIZE][SIZE], int *x, int *y, int size)
         if(dir)
         {
             l1 = 1;//rand() % 2 + 1; //Width of corridor
-            l2 = rand() % 10 + 5; //Length of Corridor
+            l2 = rand() % 5 + 3; //Length of Corridor
         }else
         {
             l2 = 1;//rand() % 2 + 1; //Width of corridor
-            l1 = rand() % 10 + 5; //Length of Corridor
+            l1 = rand() % 5 + 3; //Length of Corridor
         }
     }while(*x + l1 > size - EDGE && *y + l2 > size - EDGE);
 
