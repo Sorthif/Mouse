@@ -1,7 +1,7 @@
 #include "include.h"
 
 int main(void) {
-	int lost = 0;
+	int lost = 0, turns = 0;
 
 	char map[MAPSIZE][MAPSIZE];
 	srand(time(0));
@@ -41,17 +41,32 @@ int main(void) {
 			getchar();
 			break;
 		}
-		CLEAR;
-		if(!moveMouse(map, &pMouse, &mainWindow))
+		int walked = 2;
+		while(walked == 2)
 		{
-			lost = 1;
+			printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
+			printUI(pMouse.points);
+			pMouse.direction = GETCHARINPUT;
+			CLEAR;
+			if(pMouse.direction == 'r')
+			{
+				break;
+			}
+			walked = moveMouse(map, &pMouse, &mainWindow);
+			if(walked == 0)
+			{
+				lost = 1;
+			}
 		}
+
+		SKIPWINDOWS;
 		for (int i = 0; i < AMOUNTOFCATS; i++) {
 			if(!NPCmovement(map, &litterBox.cats[i], &pMouse.points))
 			{
 				lost = 1;
 			}
 		}
+		turns++;
 	}
 	gameLost(map, pMouse.points);
 }
