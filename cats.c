@@ -1,6 +1,6 @@
 #include "include.h"
 
-void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMoved) {
+int NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMoved) {
 	_Bool moveSuccessfull = 0, checkLastMoved = 0;
 	int movement;
 	while (moveSuccessfull == 0) {
@@ -22,7 +22,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			map[*y][*x] = ' ';
 			(*x)--;
 			if (map[*y][*x] == 'M') {
-				gameLost(map, *points);
+				return 0; //GAME LOST
 			}
 			map[*y][*x] = 'C';
 			moveSuccessfull = 1;
@@ -40,7 +40,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			map[*y][*x] = ' ';
 			(*y)++;
 			if (map[*y][*x] == 'M') {
-				gameLost(map, *points);
+				return 0; //GAME LOST
 			}
 			map[*y][*x] = 'C';
 			moveSuccessfull = 1;
@@ -58,7 +58,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			map[*y][*x] = ' ';
 			(*y)--;
 			if (map[*y][*x] == 'M') {
-				gameLost(map, *points);
+				return 0; //GAME LOST
 			}
 			map[*y][*x] = 'C';
 			moveSuccessfull = 1;
@@ -76,7 +76,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			map[*y][*x] = ' ';
 			(*x)++;
 			if (map[*y][*x] == 'M') {
-				gameLost(map, *points);
+				return 0; //GAME LOST
 			}
 			map[*y][*x] = 'C';
 			moveSuccessfull = 1;
@@ -84,4 +84,5 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			break;
 		}
 	}
+	return 1;
 }

@@ -2,12 +2,12 @@
 #include "map.h"
 
 /*======================= READ ===========================================*/
-void readMAP(char* filename, char arr[SIZE][SIZE])
+void readMAP(char* filename, char arr[MAPSIZE][MAPSIZE])
 {
     FILE* f = fopen(filename, "r");
-    for(int i = 0; i < SIZE; i++)
+    for(int i = 0; i < MAPSIZE; i++)
     {
-        for(int j = 0; j < SIZE; j++)
+        for(int j = 0; j < MAPSIZE; j++)
         {
             arr[i][j] = fgetc(f);
         }
@@ -17,16 +17,16 @@ void readMAP(char* filename, char arr[SIZE][SIZE])
 }
 
 /*======================= PRINT ===========================================*/
-void printMapToFile(char* filename, char arr[SIZE][SIZE])
+void printMapToFile(char* filename, char arr[MAPSIZE][MAPSIZE])
 {
     FILE* f = fopen(filename, "w");
-    for(int i = 0; i < SIZE; i++)
+    for(int i = 0; i < MAPSIZE; i++)
     {
-        for(int j = 0; j < SIZE; j++)
+        for(int j = 0; j < MAPSIZE; j++)
         {
             fputc(arr[i][j], f);
         }
-        if(i != SIZE - 1)
+        if(i != MAPSIZE - 1)
             fputc('\n', f);
     }
     fclose(f);
@@ -35,13 +35,13 @@ void printMapToFile(char* filename, char arr[SIZE][SIZE])
 void printHashtags()
 {
     FILE* f = fopen("RandomMap.mp", "w");
-    for(int i = 0; i < SIZE; i++)
+    for(int i = 0; i < MAPSIZE; i++)
     {
-        for(int j = 0; j < SIZE; j++)
+        for(int j = 0; j < MAPSIZE; j++)
         {
             fputc('#', f);
         }
-        if(i != SIZE - 1)
+        if(i != MAPSIZE - 1)
             fputc('\n', f);
     }
     fclose(f);
@@ -51,7 +51,7 @@ void printHashtags()
 
 /*======================= CLEAR ===========================================*/
 
-void clearKorridor(char arr[SIZE][SIZE], int *x, int *y, int size)
+void clearKorridor(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size)
 {
     int dir = rand() % 2;
     int l1, l2;
@@ -105,7 +105,7 @@ void makeMap(int x, int y, int size, int nCats, int nCheeses)
 {
     int nKorridors = size * 2;
     srand(time(0));
-    char arr[SIZE][SIZE];
+    char arr[MAPSIZE][MAPSIZE];
     printHashtags();
     readMAP("RandomMap.mp", arr);
     arr[x][y] = 'M';

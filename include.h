@@ -18,7 +18,6 @@
 #include <stdlib.h>
 
 #define MAPSIZE 200
-#define SIZE MAPSIZE
 #define START_X 5
 #define START_Y 5
 #define WINDOW 5
