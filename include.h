@@ -6,11 +6,9 @@
 	#define CLEAR system("clear")
 	#include <termios.h>
 	#include <unistd.h>
-	#define SKIPWINDOWS 1 + 1
 #elif _WIN32
     #define GETCHARINPUT getch()
 	#define CLEAR system("cls")
-	#define SKIPWINDOWS break
 #else
 #endif
 

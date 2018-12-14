@@ -13,11 +13,11 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
 int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points) {
 	_Bool moveSuccessfull = 0, checkLastMoved = 0;
 	while (moveSuccessfull == 0) {
-		c->lastMoved = weightedDie(&c->lastMoved, 70, 10, 10, 10);
+		c->lastMoved = weightedDie(c->lastMoved, 70, 10, 10, 10);
 		
 		switch (c->lastMoved) {
 		case 0: // Left
-			if (map[c->x][c->y - 1] == '#') {
+			if (map[c->y][c->x - 1] == '#') {
 				break;
 			}
 			if (map[c->y][c->x - 1] == 'o') {

@@ -35,20 +35,22 @@ int main(void) {
 	mainWindow.y.start = pMouse.pos.y - windowWidth;
 	mainWindow.y.end = pMouse.pos.y + windowWidth + 1;
 
+	CLEAR;
 	while (!lost) {
 		if (pMouse.points == 1200) {
 			printf("Congratulations! You won!\nPoints earned: %d", pMouse.points);
 			getchar();
-			break;
+			exit(1);
 		}
 		int walked = 2;
 		while(walked == 2)
 		{
 			printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
+			printf("\nturns: %d", turns);
 			printUI(pMouse.points);
 			pMouse.direction = GETCHARINPUT;
 			CLEAR;
-			if(pMouse.direction == 'r')
+			if(pMouse.direction == ' ')
 			{
 				break;
 			}
@@ -59,7 +61,6 @@ int main(void) {
 			}
 		}
 
-		SKIPWINDOWS;
 		for (int i = 0; i < AMOUNTOFCATS; i++) {
 			if(!NPCmovement(map, &litterBox.cats[i], &pMouse.points))
 			{
@@ -69,4 +70,5 @@ int main(void) {
 		turns++;
 	}
 	gameLost(map, pMouse.points);
+	exit(1);
 }
