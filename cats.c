@@ -1,5 +1,15 @@
 #include "include.h"
 
+void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
+	litterBox->numberOfCats = numberOfCats;
+	litterBox->cats = (struct cat*)calloc(numberOfCats, sizeof(struct cat));
+	if (litterBox->cats == NULL) {
+		printf("Can't create cats!");
+		exit(1);
+	}
+}
+
+
 int NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMoved) {
 	_Bool moveSuccessfull = 0, checkLastMoved = 0;
 	int movement;
