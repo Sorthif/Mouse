@@ -128,7 +128,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 			movement = *lastMoved;
 		}
 		else
-			movement = randomMovementGenerator(1, 100, *lastMoved);
+			movement = randomMovementGenerator(1, 4, *lastMoved);
 		switch (movement) {
 		case 1: // Left
 			if (map[*y][*x - 1] == '#') {
@@ -153,7 +153,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 				checkLastMoved = 1;
 				break;
 			}
-			if (map[*y][*x - 1] == 'o') {
+			if (map[*y + 1][*x] == 'o') {
 				checkLastMoved = 1;
 				break;
 			}
@@ -171,7 +171,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 				checkLastMoved = 1;
 				break;
 			}
-			if (map[*y][*x - 1] == 'o') {
+			if (map[*y - 1][*x] == 'o') {
 				checkLastMoved = 1;
 				break;
 			}
@@ -189,7 +189,7 @@ void NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMove
 				checkLastMoved = 1;
 				break;
 			}
-			if (map[*y][*x - 1] == 'o') {
+			if (map[*y][*x + 1] == 'o') {
 				checkLastMoved = 1;
 				break;
 			}
