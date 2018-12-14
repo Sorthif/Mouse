@@ -1,13 +1,13 @@
 #include "include.h"
 
 int main(void) {
-
+	
 	char map[MAPSIZE][MAPSIZE], movement = ' ';
 	srand(time(0));
 	int numbOfCats = 2;
 	struct cat cats[2];
 	makeMap(5, 5, 100, numbOfCats, 20);
-	buildMapLevel1(map);
+	readMap("RandomMap.mp", map);
 	int spawnLocations[20];
 	getSpawnLocations(map, spawnLocations);
 
@@ -24,9 +24,16 @@ int main(void) {
 			break;
 		}
 		CLEAR;
-		moveMouse(map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points);
-		for (int i = 0; i < numbOfCats; i++) {
-			NPCmovement(map, &cats[i].x, &cats[i].y, &points, &cats[i].lastMoved);
+		if(!moveMouse(map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points))
+		{
+			break;
 		}
+		for (int i = 0; i < numbOfCats; i++) {
+			if(!NPCmovement(map, &cats[i].x, &cats[i].y, &points, &cats[i].lastMoved))
+			{
+				break;
+			}
+		}
+		gameLost();
 	}
 }
