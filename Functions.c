@@ -2,7 +2,7 @@
 
 void gameLost(char map[][MAPSIZE], int points) {
 	CLEAR;
-	//printWholeMap(map);
+	printWholeMap(map);
 	printf("\nYou lost!\nYou got %3d points!.", points);
 	getchar();
 	exit(1);

@@ -35,6 +35,16 @@ struct cat {
 	int lastMoved;
 };
 
+typedef struct coor {
+	int x;
+	int y;
+} coor;
+
+typedef struct mouse {
+	coor pos;
+	int points;
+} mouse;
+
 typedef struct line {
 	int start;
 	int end;

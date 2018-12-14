@@ -1,13 +1,13 @@
 #include "include.h"
 
-void printUI(int *points) {
-	printf("\nPoints: %4d\n", *points);
+void printUI(int points) {
+	printf("\nPoints: %4d\n", points);
 }
 
 void printWholeMap(char map[][MAPSIZE]) {
-	for (int i = 0; i < MAPSIZE; i++) {
+	for (int i = 0; i < 50; i++) {
 		printf("\n");
-		for (int j = 0; j < MAPSIZE; j++)
+		for (int j = 0; j < 50; j++)
 			printf("%c", map[i][j]);
 	}
 }

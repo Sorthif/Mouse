@@ -1,7 +1,8 @@
 #include "include.h"
 
 int main(void) {
-	
+	int lost = 0;
+
 	char map[MAPSIZE][MAPSIZE];
 	srand(time(0));
 
@@ -20,32 +21,37 @@ int main(void) {
 		litterBox.cats[k].y = spawnLocations[j];
 	}
 
-	//Deklarera
-	int x = spawnLocations[0], y = spawnLocations[1], points = 0;
+	//deklarera musen
+	mouse pMouse;
+	pMouse.points = 0;
+	pMouse.pos.x = spawnLocations[0];
+	pMouse.pos.y = spawnLocations[1];
+
+	//Deklarera Föstret
 	int windowWidth = WINDOW;
 	window mainWindow;
-	mainWindow.x.start = x - windowWidth;
-	mainWindow.x.end = x + windowWidth + 1;
-	mainWindow.y.start = y - windowWidth;
-	mainWindow.y.end = y + windowWidth + 1;
+	mainWindow.x.start = pMouse.pos.x - windowWidth;
+	mainWindow.x.end = pMouse.pos.x + windowWidth + 1;
+	mainWindow.y.start = pMouse.pos.y - windowWidth;
+	mainWindow.y.end = pMouse.pos.y + windowWidth + 1;
 
-	while (1) {
-		if (points == 1200) {
-			printf("Congratulations! You won!\nPoints earned: %d", points);
+	while (!lost) {
+		if (pMouse.points == 1200) {
+			printf("Congratulations! You won!\nPoints earned: %d", pMouse.points);
 			getchar();
 			break;
 		}
 		CLEAR;
-		if(!moveMouse(map, &x, &y, &mainWindow, &points))
+		if(!moveMouse(map, &pMouse, &mainWindow))
 		{
-			break;
+			lost = 1;
 		}
 		for (int i = 0; i < AMOUNTOFCATS; i++) {
-			if(!NPCmovement(map, &litterBox.cats[i], &points))
+			if(!NPCmovement(map, &litterBox.cats[i], &pMouse.points))
 			{
-				break;
+				lost = 1;
 			}
 		}
 	}
-	gameLost(map, points);
+	gameLost(map, pMouse.points);
 }

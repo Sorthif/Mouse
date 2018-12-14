@@ -1,72 +1,52 @@
 #include "include.h"
 
-int moveMouse(char map[][MAPSIZE], int *x, int *y, window* w, int *points) {
+int moveMouse(char map[][MAPSIZE], mouse* m, window* w) {
     printSeeableMap(map, w->y.start, w->y.end, w->x.start, w->x.end);
 
-
-	printUI(points);
+    char *pCurPos = &map[m->pos.y][m->pos.x];
+	printUI(m->points);
 	char direction = GETCHARINPUT;
-	switch (direction) {
-	case 'a':
-		if (map[*y][*x - 1] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*x)--;
-		if (map[*y][*x] == 'o')
-			*points = *points + 100;
-		if (map[*y][*x] == 'C') {
-			return 0; //GAME LOST
-		}
+	//switch (direction) {
+	if(direction == 'a' && map[m->pos.y][m->pos.x - 1] != '#')//LEFT
+    {
+        *pCurPos = ' ';
+        (m->pos.x)--;
 		(w->x.start)--;
 		(w->x.end)--;
-		map[*y][*x] = 'M';
-		break;
-	case 's':
-		if (map[*y + 1][*x] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*y)++;
-		if (map[*y][*x] == 'o')
-			*points = *points + 100;
-		if (map[*y][*x] == 'C') {
-			return 0; //GAME LOST
-		}
+    }
+	else if(direction == 's' && map[m->pos.y + 1][m->pos.x] != '#')//DOWN
+    {
+		*pCurPos = ' ';
+		(m->pos.y)++;
 		(w->y.start)++;
 		(w->y.end)++;
-		map[*y][*x] = 'M';
-		break;
-	case 'w':
-		if (map[*y - 1][*x] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*y)--;
-		if (map[*y][*x] == 'o')
-			*points = *points + 100;
-		if (map[*y][*x] == 'C') {
-			return 0; //GAME LOST
-		}
+    }
+	else if(direction == 'w' && map[m->pos.y - 1][m->pos.x] != '#') //UP
+    {
+		*pCurPos = ' ';
+		(m->pos.y)--;
 		(w->y.start)--;
 		(w->y.end)--;
-		map[*y][*x] = 'M';
-		break;
-	case 'd':
-		if (map[*y][*x + 1] == '#') {
-			break;
-		}
-		map[*y][*x] = ' ';
-		(*x)++;
-		if (map[*y][*x] == 'o')
-			*points = *points + 100;
-		if (map[*y][*x] == 'C') {
-			return 0; //GAME LOST
-		}
+    }
+    else if(direction == 'd' && map[m->pos.y][m->pos.x + 1] != '#') //RIGHT
+	{
+		*pCurPos = ' ';
+		(m->pos.x)++;
 		(w->x.start)++;
 		(w->x.end)++;
-		map[*y][*x] = 'M';
-		break;
-	}
+	} else
+    {
+        return 1; //Gick inte att gå i någon riktning
+    }
+
+    pCurPos = &map[m->pos.y][m->pos.x]; //Uppdatera till nya positionen
+    if(*pCurPos == 'o') 
+    {
+			m->points = m->points + 100;
+    } else if (*pCurPos == 'C') 
+    {
+        return 0; //GAME LOST
+    }
+    *pCurPos = 'M';
     return 1;
 }
