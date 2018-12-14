@@ -22,6 +22,7 @@
 #define START_Y 5
 #define WINDOW 5
 #define EDGE WINDOW + 2
+#define AMOUNTOFCATS 5
 
 struct catBox {
 	int numberOfCats;
@@ -33,4 +34,16 @@ struct cat {
 	int y;
 	int lastMoved;
 };
+
+typedef struct line {
+	int start;
+	int end;
+} line;
+
+typedef struct window {
+	//Contains the limits for the current view drawn in the terminal
+	line y;
+	line x;
+} window;
+
 #endif

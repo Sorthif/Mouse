@@ -1,10 +1,12 @@
 #include "include.h"
 
-int moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int *ye, int *xs, int *xe, int *points) {
-	printSeeableMap(map, *ys, *ye, *xs, *xe);
+int moveMouse(char map[][MAPSIZE], int *x, int *y, window* w, int *points) {
+    printSeeableMap(map, w->y.start, w->y.end, w->x.start, w->x.end);
+
+
 	printUI(points);
-	*movement = GETCHARINPUT;
-	switch (*movement) {
+	char direction = GETCHARINPUT;
+	switch (direction) {
 	case 'a':
 		if (map[*y][*x - 1] == '#') {
 			break;
@@ -16,8 +18,8 @@ int moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int 
 		if (map[*y][*x] == 'C') {
 			return 0; //GAME LOST
 		}
-		(*xs)--;
-		(*xe)--;
+		(w->x.start)--;
+		(w->x.end)--;
 		map[*y][*x] = 'M';
 		break;
 	case 's':
@@ -31,8 +33,8 @@ int moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int 
 		if (map[*y][*x] == 'C') {
 			return 0; //GAME LOST
 		}
-		(*ys)++;
-		(*ye)++;
+		(w->y.start)++;
+		(w->y.end)++;
 		map[*y][*x] = 'M';
 		break;
 	case 'w':
@@ -46,8 +48,8 @@ int moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int 
 		if (map[*y][*x] == 'C') {
 			return 0; //GAME LOST
 		}
-		(*ys)--;
-		(*ye)--;
+		(w->y.start)--;
+		(w->y.end)--;
 		map[*y][*x] = 'M';
 		break;
 	case 'd':
@@ -61,8 +63,8 @@ int moveMouse(char map[][MAPSIZE], char *movement, int *x, int *y, int *ys, int 
 		if (map[*y][*x] == 'C') {
 			return 0; //GAME LOST
 		}
-		(*xs)++;
-		(*xe)++;
+		(w->x.start)++;
+		(w->x.end)++;
 		map[*y][*x] = 'M';
 		break;
 	}

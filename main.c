@@ -19,9 +19,16 @@ int main(void) {
 		litterBox.cats[k].x = spawnLocations[i];
 		litterBox.cats[k].y = spawnLocations[j];
 	}
-	// YS = Y start, YE = Y end, XS = X start, XE = X end.
-	int x = spawnLocations[0], y = spawnLocations[1], seeableMapYS = y - WINDOW, seeableMapYE = y + WINDOW + 1, seeableMapXS = x - WINDOW, seeableMapXE = x + WINDOW + 1, points = 0;
-	//cats[0].x = spawnLocations[2], cats[0].y = spawnLocations[3], cats[1].x = spawnLocations[4], cats[1].y = spawnLocations[5]; // NPC startlocation.
+
+	int x = spawnLocations[0], y = spawnLocations[1], points = 0;
+	//Deklarera
+	int x = spawnLocations[0], y = spawnLocations[1], points = 0;
+	int windowWidth = WINDOW;
+	window mainWindow;
+	mainWindow.x.start = x - windowWidth;
+	mainWindow.x.end = x + windowWidth + 1;
+	mainWindow.y.start = y - windowWidth;
+	mainWindow.y.end = y + windowWidth + 1;
 
 	while (1) {
 		if (points == 1200) {
@@ -30,7 +37,7 @@ int main(void) {
 			break;
 		}
 		CLEAR;
-		if(!moveMouse(map, &movement, &x, &y, &seeableMapYS, &seeableMapYE, &seeableMapXS, &seeableMapXE, &points))
+		if(!moveMouse(map, &x, &y, &mainWindow, &points))
 		{
 			break;
 		}

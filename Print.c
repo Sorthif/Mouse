@@ -13,7 +13,7 @@ void printWholeMap(char map[][MAPSIZE]) {
 }
 
 void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y start, Y end, X start, X end.
-	for (int i = ys; i < ye; i++) { // Y axis coordinates
+    for (int i = ys; i < ye; i++) { // Y axis coordinates
 		printf("\n");
 		for (int j = xs; j < xe; j++) // X axis coordinates
 			printf("%c", map[i][j]);
