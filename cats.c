@@ -10,88 +10,77 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
 }
 
 
-int NPCmovement(char map[][MAPSIZE], int *x, int *y, int *points, int *lastMoved) {
+int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points) {
 	_Bool moveSuccessfull = 0, checkLastMoved = 0;
-	int movement;
 	while (moveSuccessfull == 0) {
-		if (checkLastMoved == 0) {
-			movement = *lastMoved;
-		}
-		else
-			movement = randomMovementGenerator(1, 4, *lastMoved);
-		switch (movement) {
-		case 1: // Left
-			if (map[*y][*x - 1] == '#') {
-				checkLastMoved = 1;
+		c->lastMoved = weightedDie(&c->lastMoved, 70, 10, 10, 10);
+		
+		switch (c->lastMoved) {
+		case 0: // Left
+			if (map[c->x][c->y - 1] == '#') {
 				break;
 			}
-			if (map[*y][*x - 1] == 'o') {
-				checkLastMoved = 1;
+			if (map[c->y][c->x - 1] == 'o') {
 				break;
 			}
-			map[*y][*x] = ' ';
-			(*x)--;
-			if (map[*y][*x] == 'M') {
+			map[c->y][c->x] = ' ';
+			(c->x)--;
+			if (map[c->y][c->x] == 'M') {
 				return 0; //GAME LOST
 			}
-			map[*y][*x] = 'C';
+			map[c->y][c->x] = 'C';
 			moveSuccessfull = 1;
-			*lastMoved = 1;
+			c->lastMoved = 0;
 			break;
-		case 2: // Down
-			if (map[*y + 1][*x] == '#') {
-				checkLastMoved = 1;
+		case 1: // Down
+			if (map[c->y + 1][c->x] == '#') {
 				break;
 			}
-			if (map[*y + 1][*x] == 'o') {
-				checkLastMoved = 1;
+			if (map[c->y + 1][c->x] == 'o') {
 				break;
 			}
-			map[*y][*x] = ' ';
-			(*y)++;
-			if (map[*y][*x] == 'M') {
+			map[c->y][c->x] = ' ';
+			(c->y)++;
+			if (map[c->y][c->x] == 'M') {
 				return 0; //GAME LOST
 			}
-			map[*y][*x] = 'C';
+			map[c->y][c->x] = 'C';
 			moveSuccessfull = 1;
-			*lastMoved = 2;
+			c->lastMoved = 1;
+			break;
+		case 2: // Right
+			if (map[c->y][c->x + 1] == '#') {
+				break;
+			}
+			if (map[c->y][c->x + 1] == 'o') {
+				break;
+			}
+			map[c->y][c->x] = ' ';
+			(c->x)++;
+			if (map[c->y][c->x] == 'M') {
+				return 0; //GAME LOST
+			}
+			map[c->y][c->x] = 'C';
+			moveSuccessfull = 1;
+			c->lastMoved = 3;
 			break;
 		case 3: // Up
-			if (map[*y - 1][*x] == '#') {
-				checkLastMoved = 1;
+			if (map[c->y - 1][c->x] == '#') {
 				break;
 			}
-			if (map[*y - 1][*x] == 'o') {
-				checkLastMoved = 1;
+			if (map[c->y - 1][c->x] == 'o') {
 				break;
 			}
-			map[*y][*x] = ' ';
-			(*y)--;
-			if (map[*y][*x] == 'M') {
+			map[c->y][c->x] = ' ';
+			(c->y)--;
+			if (map[c->y][c->x] == 'M') {
 				return 0; //GAME LOST
 			}
-			map[*y][*x] = 'C';
+			map[c->y][c->x] = 'C';
 			moveSuccessfull = 1;
-			*lastMoved = 3;
+			c->lastMoved = 2;
 			break;
-		case 4: // Right
-			if (map[*y][*x + 1] == '#') {
-				checkLastMoved = 1;
-				break;
-			}
-			if (map[*y][*x + 1] == 'o') {
-				checkLastMoved = 1;
-				break;
-			}
-			map[*y][*x] = ' ';
-			(*x)++;
-			if (map[*y][*x] == 'M') {
-				return 0; //GAME LOST
-			}
-			map[*y][*x] = 'C';
-			moveSuccessfull = 1;
-			*lastMoved = 4;
-			break;
+
 		}
 	}
 	return 1;

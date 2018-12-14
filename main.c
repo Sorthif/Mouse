@@ -2,7 +2,7 @@
 
 int main(void) {
 	
-	char map[MAPSIZE][MAPSIZE], movement = ' ';
+	char map[MAPSIZE][MAPSIZE];
 	srand(time(0));
 
 	struct catBox litterBox;
@@ -20,7 +20,6 @@ int main(void) {
 		litterBox.cats[k].y = spawnLocations[j];
 	}
 
-	int x = spawnLocations[0], y = spawnLocations[1], points = 0;
 	//Deklarera
 	int x = spawnLocations[0], y = spawnLocations[1], points = 0;
 	int windowWidth = WINDOW;
@@ -42,7 +41,7 @@ int main(void) {
 			break;
 		}
 		for (int i = 0; i < AMOUNTOFCATS; i++) {
-			if(!NPCmovement(map, &litterBox.cats[i].x, &litterBox.cats[i].y, &points, &litterBox.cats[i].lastMoved))
+			if(!NPCmovement(map, &litterBox.cats[i], &points))
 			{
 				break;
 			}

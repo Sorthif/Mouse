@@ -8,10 +8,21 @@ void gameLost(char map[][MAPSIZE], int points) {
 	exit(1);
 }
 
+int weightedDie(int *lastmoved, int percentFwd, int percentLeft, int percentRight, int percentBack) {
+	int percent = rand() % 100 + 1;
+	if (percent <= percentFwd)
+		return (*lastmoved + 0) % 4;
+	else if (percent <= percentFwd + percentLeft)
+		return (*lastmoved + 1) % 4;
+	else if (percent <= percentFwd + percentLeft + percentRight)
+		return (*lastmoved + 3) % 4;
+	else //Moves backwards.
+		return (*lastmoved + 2) % 4;
+}
+
 int randomMovementGenerator(int num1, int num2, int lastmoved) {
 	int lower = num1, upper = num2;
 	int num = (rand() % (upper - lower + 1)) + lower;
-
 	return num;
 }
 
