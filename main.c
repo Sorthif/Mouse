@@ -15,7 +15,9 @@ int main(void) {
 		level *mLevel = &(mGame.levels[mGame.currentLevel-1]);
 		struct catBox litterBox;
 
-		//deklarera musen
+		//Kommenterar bort this now because Spawnlocations is not ready here
+		//mouse pMouse = initMouse(spawnLocations);
+
 		mouse pMouse;
 		pMouse.pos.x = 5;
 		pMouse.pos.y = 5;
@@ -29,27 +31,19 @@ int main(void) {
 		getSpawnLocations(map, spawnLocations);
 		allocateMemoryForCats(&litterBox, mLevel->nCats);
 
-		for (int i = 2, j = 3, k = 0; k < mLevel->nCats; i = i + 2, j = j + 2, k++) {
-			litterBox.cats[k].lastMoved = 1;
-			litterBox.cats[k].x = spawnLocations[i];
-			litterBox.cats[k].y = spawnLocations[j];
-		}
+		initCats(&litterBox, mLevel->nCats, spawnLocations);
 
 		//Deklarera Föstret
 		int windowWidth = WINDOW;
-		window mainWindow;
-		mainWindow.x.start = pMouse.pos.x - windowWidth;
-		mainWindow.x.end = pMouse.pos.x + windowWidth + 1;
-		mainWindow.y.start = pMouse.pos.y - windowWidth;
-		mainWindow.y.end = pMouse.pos.y + windowWidth + 1;
-
+		window mainWindow = initWindow(WINDOW, pMouse);
+		
 		CLEAR;
 		while (!lost) {
 			if (mLevel->points == mLevel->winpoints) {
 				printf("Congratulations! You beat the level!\nPoints earned: %d", mLevel->points);
 				getchar();
-				break;
 			}
+	
 			int walked = 2;
 			while(walked == 2)
 			{
@@ -80,7 +74,6 @@ int main(void) {
 				}
 			}
 			turns++;
-			
 		}
 		free(litterBox.cats);
 		if(mGame.currentLevel < mGame.nLevels && !lost)

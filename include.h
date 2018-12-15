@@ -79,4 +79,7 @@ typedef struct game {
 } game;
 
 
+mouse initMouse(int spawnLocations[]);
+window initWindow(int windowWidth, mouse pMouse);
+void initCats(struct catBox *litterBox, int amount, int spawnLocations[]);
 #endif

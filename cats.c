@@ -9,78 +9,49 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
 	}
 }
 
+static int NPCmovementHelp(char map[][MAPSIZE], struct cat *c, int xValue, int yValue, int xMove, int yMove, int lastM){
+	//Helpfunction to NPCmovement.
+	if (map[c->y + yValue][c->x + xValue] == '#') {
+		return 0;
+	}
+	if (map[c->y + yValue][c->x + xValue] == 'o') {
+		return 0;
+	}
+	map[c->y][c->x] = ' '; //Clears previous location
+
+	//Moves the cat according to switch in NPCmovement
+	c->x += xMove;
+	c->y += yMove;
+	if (map[c->y][c->x] == 'M') {
+		return 2; //GAME LOST
+	}
+	map[c->y][c->x] = 'C';
+	c->lastMoved = lastM;
+	return 1;
+}
 
 int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points) {
 	_Bool moveSuccessfull = 0, checkLastMoved = 0;
-	while (moveSuccessfull == 0) {
+	int moveStatus = 0;
+	while (moveStatus == 0) {
 		c->lastMoved = weightedDie(c->lastMoved, 70, 10, 10, 10);
 		
 		switch (c->lastMoved) {
 		case 0: // Left
-			if (map[c->y][c->x - 1] == '#') {
-				break;
-			}
-			if (map[c->y][c->x - 1] == 'o') {
-				break;
-			}
-			map[c->y][c->x] = ' ';
-			(c->x)--;
-			if (map[c->y][c->x] == 'M') {
-				return 0; //GAME LOST
-			}
-			map[c->y][c->x] = 'C';
-			moveSuccessfull = 1;
-			c->lastMoved = 0;
+			moveStatus = NPCmovementHelp(map, c, -1, 0, -1, 0, 0);
 			break;
 		case 1: // Down
-			if (map[c->y + 1][c->x] == '#') {
-				break;
-			}
-			if (map[c->y + 1][c->x] == 'o') {
-				break;
-			}
-			map[c->y][c->x] = ' ';
-			(c->y)++;
-			if (map[c->y][c->x] == 'M') {
-				return 0; //GAME LOST
-			}
-			map[c->y][c->x] = 'C';
-			moveSuccessfull = 1;
-			c->lastMoved = 1;
+			moveStatus = NPCmovementHelp(map, c, 0, 1, 0, 1, 1);
 			break;
 		case 2: // Right
-			if (map[c->y][c->x + 1] == '#') {
-				break;
-			}
-			if (map[c->y][c->x + 1] == 'o') {
-				break;
-			}
-			map[c->y][c->x] = ' ';
-			(c->x)++;
-			if (map[c->y][c->x] == 'M') {
-				return 0; //GAME LOST
-			}
-			map[c->y][c->x] = 'C';
-			moveSuccessfull = 1;
-			c->lastMoved = 3;
+			moveStatus = NPCmovementHelp(map, c, 1, 0, 1, 0, 3);
 			break;
 		case 3: // Up
-			if (map[c->y - 1][c->x] == '#') {
-				break;
-			}
-			if (map[c->y - 1][c->x] == 'o') {
-				break;
-			}
-			map[c->y][c->x] = ' ';
-			(c->y)--;
-			if (map[c->y][c->x] == 'M') {
-				return 0; //GAME LOST
-			}
-			map[c->y][c->x] = 'C';
-			moveSuccessfull = 1;
-			c->lastMoved = 2;
+			moveStatus = NPCmovementHelp(map, c, 0, -1, 0, -1, 2);
 			break;
-
+		}
+		if (moveStatus == 2){
+			return 0;
 		}
 	}
 	return 1;

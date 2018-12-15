@@ -40,9 +40,9 @@ void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y
 
 void printLeaderboard(game g)
 {
-	char* name[100];
+	char name[100];
 	printf("\nEnter your name: ");
-	scanf("%s", &name);
+	scanf("%s", name);
 	FILE* lf = fopen("leaderboard.txt", "a");
 	fprintf(lf, "%s: %d points (level %d)\n", name, g.totalPoints, g.currentLevel);
 	fclose(lf);
