@@ -20,9 +20,9 @@ void poop(char map[][MAPSIZE], mouse* m)
     (m->poops)--;
 }
 
-int moveMouse(char map[][MAPSIZE], mouse* m, window* w) {
+int moveMouse(char map[][MAPSIZE], game* g, window* w) {
+	mouse* m = g->playerMouse;
     char *pCurPos = &map[m->pos.y][m->pos.x];
-	
 	if(m->direction == 'a' && map[m->pos.y][m->pos.x - 1] != '#')//LEFT
     {
         *pCurPos = ' ';
@@ -58,7 +58,8 @@ int moveMouse(char map[][MAPSIZE], mouse* m, window* w) {
     pCurPos = &map[m->pos.y][m->pos.x]; //Uppdatera till nya positionen
     if(*pCurPos == 'o') 
     {
-		m->points = m->points + 100;
+		g->levels[g->currentLevel-1].points = g->levels[g->currentLevel-1].points + 100;
+        g->totalPoints += 100;
         if(m->poops < MAXPOOPS) 
         {
             m->poops++;

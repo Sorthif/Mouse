@@ -1,11 +1,28 @@
 #include "include.h"
 
+void generateLevels(int nLevels, game* g)
+{
+	level* levels = (level*) calloc(nLevels, sizeof(level));
+	for(int i = 0; i < nLevels; i++)
+	{
+		levels[i].nCats = i + 1;
+		levels[i].nCheeses = 4 + i * 1;
+		levels[i].points = 0;
+		levels[i].winpoints = 400 + i * 100;
+		levels[i].seed = rand();
+		levels[i].size = 100 + i * 20;
+	}
+	g->currentLevel = 1;
+	g->levels = levels;
+	g->totalPoints = 0;
+	g->nLevels = nLevels;
+}
+
 void gameLost(char map[][MAPSIZE], int points) {
 	CLEAR;
 	printWholeMap(map);
 	printf("\nYou lost!\nYou got %3d points!.", points);
 	getchar();
-	exit(1);
 }
 
 int weightedDie(int lastmoved, int percentFwd, int percentLeft, int percentRight, int percentBack) {

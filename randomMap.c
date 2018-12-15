@@ -100,26 +100,55 @@ void clearKorridor(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size)
     }
 }
 
-void makeMap(int x, int y, int size, int nCats, int nCheeses)
+void clearBonus(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size)
 {
+    char* str = "      ### ##    ##  # ##    ##### ####  #### #####   ### # ### # ###   ### # ###   #### ####  #### #####o##### ##### #####C#####o####oooo#######";
+    for(int i = 0; i < 10; i++)
+    {
+        arr[*y][*x + i] = ' '; //Rita en korridor till h;ger
+    }
+    int len = strlen(str);
+    for(int i = 0; i < len / 6; i++)
+    {
+        for(int j = 10; j < 16; j++)
+        {
+            arr[*y+i][*x+j] = *str;
+            str = str+1;
+        }
+    }
+}
+
+void makeMap(game g)
+{
+    
+    int x = g.playerMouse->pos.x;
+    int y = g.playerMouse->pos.y;
+    int size = g.levels[g.currentLevel-1].size;
+    int nCats = g.levels[g.currentLevel-1].nCats;
+    int nCheeses = g.levels[g.currentLevel-1].nCheeses;
     int nKorridors = size * 2;
-    srand(time(0));
+    srand(g.levels[g.currentLevel-1].seed);
     char arr[MAPSIZE][MAPSIZE];
     printHashtags();
     readMap("RandomMap.mp", arr);
     arr[x][y] = 'M';
+    
     for(int i = 0; i < nKorridors; i++)
     {
         //getchar();
         clearKorridor(arr, &x, &y, size);
+        
         if(i % (nKorridors / nCats) == 10)
         {
             arr[x][y] = 'C';
-        }
-        if(i % (nKorridors / nCheeses) ==2)
+        }else if(i % (nKorridors / nCheeses) == 2)
         {
             arr[x][y] = 'o';
+        }else if(i == nKorridors - 2)
+        {
+            clearBonus(arr, &x, &y, size);
         }
     }
+
     printMapToFile("RandomMap.mp", arr);
 }

@@ -25,6 +25,9 @@
 #define AMOUNTOFCATS 5
 #define MAXPOOPS 3
 
+
+
+
 struct catBox {
 	int numberOfCats;
 	struct cat *cats;
@@ -42,8 +45,7 @@ typedef struct coor {
 } coor;
 
 typedef struct mouse {
-	coor pos;
-	int points;
+	struct coor pos;
 	int poops;
 	char direction;
 } mouse;
@@ -58,5 +60,23 @@ typedef struct window {
 	line y;
 	line x;
 } window;
+
+typedef struct level {
+	int size;
+	int points;
+	int winpoints;
+	int nCheeses;
+	int nCats;
+	int seed;
+} level;
+
+typedef struct game {
+	struct level* levels;
+	int currentLevel;
+	int totalPoints;
+	int nLevels;
+	struct mouse* playerMouse;
+} game;
+
 
 #endif

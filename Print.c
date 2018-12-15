@@ -11,8 +11,11 @@ int isNotSecretCharacter(char c)
 	return 1;
 }
 
-void printUI(mouse m) {
-	printf("\nPoints: %4d\tPoops: %2d\n", m.points, m.poops);
+void printUI(game g) {
+	printf("\nlevel: %d", g.currentLevel);
+	printf("\nPoints: %4d/%4d %4d\tPoops: %2d\n", 
+	g.levels[g.currentLevel-1].points, g.levels[g.currentLevel-1].winpoints, 
+	g.totalPoints, g.playerMouse->poops);
 }
 
 void printWholeMap(char map[][MAPSIZE]) {
@@ -33,4 +36,23 @@ void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y
 			}
 	}
 	//printWholeMap(map); // Use when you need to print whole map.
+}
+
+void printLeaderboard(game g)
+{
+	char* name[100];
+	printf("\nEnter your name: ");
+	scanf("%s", &name);
+	FILE* lf = fopen("leaderboard.txt", "a");
+	fprintf(lf, "%s: %d points (level %d)\n", name, g.totalPoints, g.currentLevel);
+	fclose(lf);
+	lf = fopen("leaderboard.txt", "r");
+	char c;
+	printf("\n LEADERBOARD\n====================\n");
+	while(!feof(lf))
+	{
+		fscanf(lf, "%c", &c);
+		printf("%c", c);
+	}
+	fclose(lf);
 }
