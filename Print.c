@@ -13,7 +13,7 @@ int isNotSecretCharacter(char c)
 
 void printUI(game g) {
 	printf("\nlevel: %d", g.currentLevel);
-	printf("\nPoints: %4d/%4d %4d\tPoops: %2d\n", 
+	printf("\nPoints: %4d/%4d %4d\tPoops: %2d/3\n", 
 	g.levels[g.currentLevel-1].points, g.levels[g.currentLevel-1].winpoints, 
 	g.totalPoints, g.playerMouse->poops);
 }
