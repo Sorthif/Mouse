@@ -34,7 +34,7 @@ int main(void) {
 		initCats(&litterBox, mLevel->nCats, spawnLocations);
 
 		//Deklarera Föstret
-		int windowWidth = WINDOW;
+		// int windowWidth = WINDOW; //Uneccessary variable. It's already #defined
 		window mainWindow = initWindow(WINDOW, pMouse);
 		
 		CLEAR;
@@ -86,5 +86,5 @@ int main(void) {
 	}
 	gameLost(map, mGame.totalPoints);
 	printLeaderboard(mGame);
-	exit(1);
+	exit(0);
 }
