@@ -59,4 +59,7 @@ typedef struct window {
 	line x;
 } window;
 
+mouse initMouse(int spawnLocations[]);
+window initWindow(int windowWidth, mouse pMouse);
+void initCats(struct catBox *litterBox, int amount, int spawnLocations[]);
 #endif
