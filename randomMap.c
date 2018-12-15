@@ -1,5 +1,4 @@
 #include "include.h"
-#include "map.h"
 
 /*======================= READ ===========================================*/
 void readMap(char* filename, char arr[MAPSIZE][MAPSIZE])
@@ -113,7 +112,7 @@ void makeMap(int x, int y, int size, int nCats, int nCheeses)
     {
         //getchar();
         clearKorridor(arr, &x, &y, size);
-        if(i % (nKorridors / nCats) == 4)
+        if(i % (nKorridors / nCats) == 10)
         {
             arr[x][y] = 'C';
         }

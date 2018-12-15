@@ -2,6 +2,7 @@
 
 int main(void) {
 	int lost = 0, turns = 0;
+	char input;
 
 	char map[MAPSIZE][MAPSIZE];
 	srand(time(0));
@@ -26,6 +27,7 @@ int main(void) {
 	pMouse.points = 0;
 	pMouse.pos.x = spawnLocations[0];
 	pMouse.pos.y = spawnLocations[1];
+	pMouse.poops = 0;
 
 	//Deklarera Föstret
 	int windowWidth = WINDOW;
@@ -47,13 +49,18 @@ int main(void) {
 		{
 			printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
 			printf("\nturns: %d", turns);
-			printUI(pMouse.points);
-			pMouse.direction = GETCHARINPUT;
+			printUI(pMouse);
+			input = GETCHARINPUT;
 			CLEAR;
-			if(pMouse.direction == ' ')
+			if(input == ' ')
 			{
 				break;
+			} else if(input == 'p' && pMouse.poops > 0)
+			{
+				poop(map, &pMouse);
+				break;
 			}
+			pMouse.direction = input;
 			walked = moveMouse(map, &pMouse, &mainWindow);
 			if(walked == 0)
 			{

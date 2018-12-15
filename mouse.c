@@ -1,4 +1,24 @@
 #include "include.h"
+void poop(char map[][MAPSIZE], mouse* m)
+{
+    int x = 0, y = 0;
+    switch(m->direction)
+    {
+        case 'a': //LEFT
+            map[m->pos.y][m->pos.x + 1] = '4';
+            break;
+        case 's': //DOWN
+            map[m->pos.y -1][m->pos.x] = '2';
+            break; 
+        case 'w': //UP
+            map[m->pos.y + 1][m->pos.x] = '8';
+            break;
+        case 'd': //RIGHT
+            map[m->pos.y][m->pos.x - 1] = '6';
+
+    }
+    (m->poops)--;
+}
 
 int moveMouse(char map[][MAPSIZE], mouse* m, window* w) {
     char *pCurPos = &map[m->pos.y][m->pos.x];
@@ -39,6 +59,13 @@ int moveMouse(char map[][MAPSIZE], mouse* m, window* w) {
     if(*pCurPos == 'o') 
     {
 		m->points = m->points + 100;
+        if(m->poops < MAXPOOPS) 
+        {
+            m->poops++;
+        } else
+        {
+            poop(map, m);
+        }
     } else if (*pCurPos == 'C') 
     {
         return 0; //GAME LOST

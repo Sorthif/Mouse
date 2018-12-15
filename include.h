@@ -23,6 +23,7 @@
 #define WINDOW 7
 #define EDGE WINDOW + 2
 #define AMOUNTOFCATS 5
+#define MAXPOOPS 3
 
 struct catBox {
 	int numberOfCats;
@@ -43,6 +44,7 @@ typedef struct coor {
 typedef struct mouse {
 	coor pos;
 	int points;
+	int poops;
 	char direction;
 } mouse;
 

@@ -1,7 +1,18 @@
 #include "include.h"
 
-void printUI(int points) {
-	printf("\nPoints: %4d\n", points);
+int isNotSecretCharacter(char c)
+{
+	char* poopChars = "2468";
+	if(strchr(poopChars, c))
+	{
+		printf(".");
+		return 0;
+	}
+	return 1;
+}
+
+void printUI(mouse m) {
+	printf("\nPoints: %4d\tPoops: %2d\n", m.points, m.poops);
 }
 
 void printWholeMap(char map[][MAPSIZE]) {
@@ -16,7 +27,10 @@ void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y
     for (int i = ys; i < ye; i++) { // Y axis coordinates
 		printf("\n");
 		for (int j = xs; j < xe; j++) // X axis coordinates
-			printf("%c", map[i][j]);
+			if(isNotSecretCharacter(map[i][j]))
+			{
+				printf("%c", map[i][j]);
+			}
 	}
 	//printWholeMap(map); // Use when you need to print whole map.
 }
