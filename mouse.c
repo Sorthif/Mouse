@@ -20,36 +20,41 @@ void poop(char map[][MAPSIZE], mouse* m)
     (m->poops)--;
 }
 
+static void helpMoveMouse(mouse *m, window *w, int x, int y){
+    if (x){
+        m->pos.x += x;
+        w->x.start += x;
+        w->x.end += x;
+    }
+    else if (y){
+        m->pos.y += y;
+        w->y.start += y;
+        w->y.end += y;
+    }
+}
+
 int moveMouse(char map[][MAPSIZE], game* g, window* w) {
 	mouse* m = g->playerMouse;
     char *pCurPos = &map[m->pos.y][m->pos.x];
 	if(m->direction == 'a' && map[m->pos.y][m->pos.x - 1] != '#')//LEFT
     {
         *pCurPos = ' ';
-        (m->pos.x)--;
-		(w->x.start)--;
-		(w->x.end)--;
+        helpMoveMouse(m, w, -1, 0);
     }
 	else if(m->direction == 's' && map[m->pos.y + 1][m->pos.x] != '#')//DOWN
     {
 		*pCurPos = ' ';
-		(m->pos.y)++;
-		(w->y.start)++;
-		(w->y.end)++;
+        helpMoveMouse(m, w, 0, 1);
     }
 	else if(m->direction == 'w' && map[m->pos.y - 1][m->pos.x] != '#') //UP
     {
 		*pCurPos = ' ';
-		(m->pos.y)--;
-		(w->y.start)--;
-		(w->y.end)--;
+        helpMoveMouse(m, w, 0, -1);
     }
     else if(m->direction == 'd' && map[m->pos.y][m->pos.x + 1] != '#') //RIGHT
 	{
 		*pCurPos = ' ';
-		(m->pos.x)++;
-		(w->x.start)++;
-		(w->x.end)++;
+        helpMoveMouse(m, w, 1, 0);
 	} else
     {
         return 2; //Gick inte att gå i någon riktning

@@ -1,13 +1,6 @@
 #include "include.h"
 
-void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
-	litterBox->numberOfCats = numberOfCats;
-	litterBox->cats = (struct cat*)calloc(numberOfCats, sizeof(struct cat));
-	if (litterBox->cats == NULL) {
-		printf("Can't create cats!");
-		exit(1);
-	}
-}
+//allocateMemoryToCats moved to init.c
 
 static int NPCmovementHelp(char map[][MAPSIZE], struct cat *c, int xValue, int yValue, int xMove, int yMove, int lastM){
 	//Helpfunction to NPCmovement.
@@ -36,8 +29,8 @@ int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points) {
 	while (moveStatus == 0) {
 		c->lastMoved = weightedDie(c->lastMoved, 70, 10, 10, 10);
 		
-		switch (c->lastMoved) {
-		case 0: // Left
+		switch (c->lastMoved) {//				  cords	 move  
+		case 0: // Left							  x  y   x  y  lastMoved
 			moveStatus = NPCmovementHelp(map, c, -1, 0, -1, 0, 0);
 			break;
 		case 1: // Down
