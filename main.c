@@ -42,6 +42,7 @@ int main(void) {
 			if (mLevel->points == mLevel->winpoints) {
 				printf("Congratulations! You beat the level!\nPoints earned: %d", mLevel->points);
 				getchar();
+				break;
 			}
 	
 			int walked = 2;
