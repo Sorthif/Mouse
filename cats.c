@@ -9,15 +9,17 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
 	}
 }
 
-static int movementHelp(char map[][MAPSIZE], struct cat *c, int xValue, int yValue, int xMove, int yMove, int lastM){
+static int NPCmovementHelp(char map[][MAPSIZE], struct cat *c, int xValue, int yValue, int xMove, int yMove, int lastM){
+	//Helpfunction to NPCmovement.
 	if (map[c->y + yValue][c->x + xValue] == '#') {
 		return 0;
 	}
 	if (map[c->y + yValue][c->x + xValue] == 'o') {
 		return 0;
 	}
-	map[c->y][c->x] = ' ';
-	// (c->x)--;
+	map[c->y][c->x] = ' '; //Clears previous location
+
+	//Moves the cat according to switch in NPCmovement
 	c->x += xMove;
 	c->y += yMove;
 	if (map[c->y][c->x] == 'M') {
@@ -36,16 +38,16 @@ int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points) {
 		
 		switch (c->lastMoved) {
 		case 0: // Left
-			moveStatus = movementHelp(map, c, -1, 0, -1, 0, 0);
+			moveStatus = NPCmovementHelp(map, c, -1, 0, -1, 0, 0);
 			break;
 		case 1: // Down
-			moveStatus = movementHelp(map, c, 0, 1, 0, 1, 1);
+			moveStatus = NPCmovementHelp(map, c, 0, 1, 0, 1, 1);
 			break;
 		case 2: // Right
-			moveStatus = movementHelp(map, c, 1, 0, 1, 0, 3);
+			moveStatus = NPCmovementHelp(map, c, 1, 0, 1, 0, 3);
 			break;
 		case 3: // Up
-			moveStatus = movementHelp(map, c, 0, -1, 0, -1, 2);
+			moveStatus = NPCmovementHelp(map, c, 0, -1, 0, -1, 2);
 			break;
 		}
 		if (moveStatus == 2){

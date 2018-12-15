@@ -42,7 +42,7 @@ int main(void) {
 		if (pMouse.points == 1200) {
 			printf("Congratulations! You won!\nPoints earned: %d", pMouse.points);
 			getchar();
-			exit(1);
+			exit(0); //Casper - changed to exit(0); instead of exit(1); 0 = successful run.
 		}
 		int walked = 2;
 		while(walked == 2)
