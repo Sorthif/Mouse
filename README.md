@@ -3,7 +3,7 @@ To-do list.
 When doing something on the list, write your name on it to avoid collisions
 * When a cat finds the poop they will start tracking the mouse. Poop is represented in the map as '4' , '2', '8', '6'
 * Sorting the lines of the leaderboard by score
-* Improve structure and readability in main
+* Improve structure and readability in main - Casper
 * Use the struct coor to represent coordinates for struct cat
 
 Ideas
