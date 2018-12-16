@@ -83,6 +83,8 @@ typedef struct game {
 	struct mouse* playerMouse;
 } game;
 
+enum movement {dead = 0, walked, stayed, alive};
+
 // INIT
 mouse initMouse(int spawnLocations[]);
 window initWindow(int windowWidth, mouse pMouse);
@@ -98,6 +100,7 @@ void getSpawnLocations(char map[][MAPSIZE], int arr[20]);
 
 // CATS
 int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points);
+int moveCats(char map[][MAPSIZE], level *mLevel, struct catBox *litterBox);
 
 // PRINT
 int isNotSecretCharacter(char c);
@@ -110,7 +113,7 @@ void printLeaderboard(game g);
 
 // MOUSE
 void poop(char map[][MAPSIZE], mouse* m);
-int moveMouse(char map[][MAPSIZE], game* g, window* w);
+int moveMouse(char map[][MAPSIZE], game* g, window* w, int input);
 
 // RANDOM MAP
 void readMap(char* filename, char arr[MAPSIZE][MAPSIZE]);

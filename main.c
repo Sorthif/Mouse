@@ -1,8 +1,9 @@
 #include "include.h"
 
 int main(void) {
-	int lost = 0, turns = 0;
+	int lifeStatus = alive, turns = 0;
 	char input;
+	int movement = stayed;
 
 	char map[MAPSIZE][MAPSIZE];
 
@@ -10,7 +11,7 @@ int main(void) {
 	srand(time(0));
 	generateLevels(10, &mGame);
 
-	while(!lost)
+	while(lifeStatus == alive)
 	{
 		level *mLevel = &(mGame.levels[mGame.currentLevel-1]);
 		struct catBox litterBox;
@@ -34,56 +35,49 @@ int main(void) {
 		initCats(&litterBox, mLevel->nCats, spawnLocations);
 
 		//Deklarera Föstret
-		// int windowWidth = WINDOW; //Uneccessary variable. It's already #defined
+		int windowWidth = WINDOW; //Uneccessary variable. It's already #defined
 		window mainWindow = initWindow(WINDOW, pMouse);
 		
 		CLEAR;
-		while (!lost) {
-			if (mLevel->points == mLevel->winpoints) {
+
+		/*==============GAME LOOP=================*/
+		while (lifeStatus == alive) { //Will loop while alive
+			if (mLevel->points >= mLevel->winpoints) {
 				printf("Congratulations! You beat the level!\nPoints earned: %d", mLevel->points);
 				getchar();
 				break;
 			}
 	
-			int walked = 2;
-			while(walked == 2)
-			{
+			do { //Will loop when trying to walk into a wall
 				printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
 				printUI(mGame);
+
 				input = GETCHARINPUT;
 				CLEAR;
-				if(input == ' ')
-				{
-					break;
-				} else if(input == 'p' && pMouse.poops > 0)
-				{
-					poop(map, &pMouse);
-					break;
-				}
-				pMouse.direction = input;
-				walked = moveMouse(map, &mGame, &mainWindow);
-				if(walked == 0)
-				{
-					lost = 1;
-				}
+				movement = moveMouse(map, &mGame, &mainWindow, input);
+
+			}while(movement == stayed);
+
+			if(movement == dead) {
+				lifeStatus = dead;
+			}
+			else {
+				lifeStatus = moveCats(map, mGame.levels, &litterBox);
 			}
 
-			for (int i = 0; i < mLevel->nCats; i++) {
-				if(!NPCmovement(map, &litterBox.cats[i], &mLevel->points))
-				{
-					lost = 1;
-				}
-			}
 			turns++;
 		}
 		free(litterBox.cats);
-		if(mGame.currentLevel < mGame.nLevels && !lost)
+		if(mGame.currentLevel < mGame.nLevels && lifeStatus == alive)
 		{
 			mGame.currentLevel++;
 		}else{
+			printf("All %d levels completed\n", mGame.nLevels);
 			break; //GAME WON ALL LEVELS!!
 		}
 	}
+
+	/*================GAME ENDED==============*/
 	gameLost(map, mGame.totalPoints);
 	printLeaderboard(mGame);
 	exit(0);

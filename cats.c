@@ -2,6 +2,16 @@
 
 //allocateMemoryToCats moved to init.c
 
+int moveCats(char map[][MAPSIZE], level *mLevel, struct catBox *litterBox){
+
+	for (int i = 0; i < mLevel->nCats; i++) {
+		if(!NPCmovement(map, &(litterBox->cats[i]), &mLevel->points)) {
+			return dead;
+		}
+	}
+	return alive;
+}
+
 static int NPCmovementHelp(char map[][MAPSIZE], struct cat *c, int xValue, int yValue, int xMove, int yMove, int lastM){
 	//Helpfunction to NPCmovement.
 	if (map[c->y + yValue][c->x + xValue] == '#') {

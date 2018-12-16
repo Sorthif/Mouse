@@ -38,8 +38,18 @@ static void helpMoveMouse(mouse *m, window *w, int x, int y){
     }
 }
 
-int moveMouse(char map[][MAPSIZE], game* g, window* w) {
+int moveMouse(char map[][MAPSIZE], game* g, window* w, int input) {
 	mouse* m = g->playerMouse;
+
+    if(input == ' ') {
+        return walked;
+    } 
+    else if(input == 'p' && m->poops > 0) {
+        poop(map, m);
+        return walked;
+    }
+
+    m->direction = input;
     char *pCurPos = &map[m->pos.y][m->pos.x];
 	if(m->direction == 'a' && map[m->pos.y][m->pos.x - 1] != '#')//LEFT
     {
@@ -62,7 +72,7 @@ int moveMouse(char map[][MAPSIZE], game* g, window* w) {
         helpMoveMouse(m, w, 1, 0);
 	} else
     {
-        return 2; //Gick inte att gå i någon riktning
+        return stayed; //Gick inte att gå i någon riktning
     }
 
     pCurPos = &map[m->pos.y][m->pos.x]; //Uppdatera till nya positionen
@@ -79,8 +89,8 @@ int moveMouse(char map[][MAPSIZE], game* g, window* w) {
         }
     } else if (*pCurPos == 'C') 
     {
-        return 0; //GAME LOST
+        return dead; //GAME LOST
     }
     *pCurPos = 'M';
-    return 1;
+    return walked;
 }
