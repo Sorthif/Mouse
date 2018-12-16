@@ -1,18 +1,20 @@
 #include "include.h"
 
 int main(void) {
-	int lifeStatus = alive, turns = 0;
-	char input;
+	int lifeStatus = alive;
+	int turns = 0;
 	int movement = stayed;
 
+	char input;
 	char map[MAPSIZE][MAPSIZE];
 
 	game mGame;
 	srand(time(0));
 	generateLevels(10, &mGame);
 
-	while(lifeStatus == alive)
-	{
+	/*===============LEVELS LOOP==============*/
+	while(lifeStatus == alive) { 
+		int spawnLocations[100];
 		level *mLevel = &(mGame.levels[mGame.currentLevel-1]);
 		struct catBox litterBox;
 
@@ -28,10 +30,9 @@ int main(void) {
 		makeMap(mGame);
 		
 		readMap("map.txt", map);
-		int spawnLocations[100];
 		getSpawnLocations(map, spawnLocations);
+		
 		allocateMemoryForCats(&litterBox, mLevel->nCats);
-
 		initCats(&litterBox, mLevel->nCats, spawnLocations);
 
 		//Deklarera Föstret
@@ -48,17 +49,18 @@ int main(void) {
 				break;
 			}
 	
+			printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
+			printUI(mGame);
+
 			do { //Will loop when trying to walk into a wall
-				printSeeableMap(map, mainWindow.y.start, mainWindow.y.end, mainWindow.x.start, mainWindow.x.end);
-				printUI(mGame);
 
 				input = GETCHARINPUT;
-				CLEAR;
 				movement = moveMouse(map, &mGame, &mainWindow, input);
+			} while(movement == stayed);
 
-			}while(movement == stayed);
+			CLEAR;
 
-			if(movement == dead) {
+			if (movement == dead) {
 				lifeStatus = dead;
 			}
 			else {
@@ -68,10 +70,10 @@ int main(void) {
 			turns++;
 		}
 		free(litterBox.cats);
-		if(mGame.currentLevel < mGame.nLevels && lifeStatus == alive)
+		if (mGame.currentLevel < mGame.nLevels && lifeStatus == alive)
 		{
 			mGame.currentLevel++;
-		}else{
+		} else {
 			printf("All %d levels completed\n", mGame.nLevels);
 			break; //GAME WON ALL LEVELS!!
 		}
@@ -80,5 +82,5 @@ int main(void) {
 	/*================GAME ENDED==============*/
 	gameLost(map, mGame.totalPoints);
 	printLeaderboard(mGame);
-	exit(0);
+	return 0;
 }

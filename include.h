@@ -83,7 +83,7 @@ typedef struct game {
 	struct mouse* playerMouse;
 } game;
 
-enum movement {dead = 0, walked, stayed, alive};
+enum statuses {dead = 0, walked, stayed, alive, blocked};
 
 // INIT
 mouse initMouse(int spawnLocations[]);
