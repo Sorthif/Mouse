@@ -1,5 +1,10 @@
 #include "include.h"
 
+/* =============== IS NOT SECRET CHARACTER ==================
+Any invisible character stored in array is handled here 
+and its representation is instedad printed.
+
+Returns 0 if it is printed so it is not printed in calling function*/
 int isNotSecretCharacter(char c)
 {
 	char* poopChars = "2468";
@@ -38,6 +43,10 @@ void printSeeableMap(char map[][MAPSIZE], int ys, int ye, int xs, int xe) { // Y
 	//printWholeMap(map); // Use when you need to print whole map.
 }
 
+/*===============PRINT LEADERBOARD ======================
+simply shows up at the end and appends the user to the local leaderboard
+
+TODO - sort the leaderboard*/
 void printLeaderboard(game g)
 {
 	char name[100];

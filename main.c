@@ -26,7 +26,7 @@ int main(void) {
 		mGame.playerMouse = &pMouse;
 		makeMap(mGame);
 		
-		readMap("RandomMap.mp", map);
+		readMap("map.txt", map);
 		int spawnLocations[100];
 		getSpawnLocations(map, spawnLocations);
 		allocateMemoryForCats(&litterBox, mLevel->nCats);

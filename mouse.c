@@ -1,4 +1,9 @@
 #include "include.h"
+
+/*================== PPPOOOOOOPPP =================
+stores a 'poop' in the array, the character stored tells the game 
+which direction the mouse was walking and should be used by enemies to 
+track the mouse*/
 void poop(char map[][MAPSIZE], mouse* m)
 {
     int x = 0, y = 0;

@@ -33,7 +33,7 @@ void printMapToFile(char* filename, char arr[MAPSIZE][MAPSIZE])
 
 void printHashtags()
 {
-    FILE* f = fopen("RandomMap.mp", "w");
+    FILE* f = fopen("map.txt", "w");
     for(int i = 0; i < MAPSIZE; i++)
     {
         for(int j = 0; j < MAPSIZE; j++)
@@ -100,6 +100,8 @@ void clearKorridor(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size)
     }
 }
 
+/*====================== CLEAR BONUS ====================
+Hardcoded more challenging part of the course*/ 
 void clearBonus(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size)
 {
     char* str = "      ### ##    ##  # ##    ##### ####  #### #####   ### # ### # ###   ### # ###   #### ####  #### #####o##### ##### #####C#####o####oooo#######";
@@ -130,7 +132,7 @@ void makeMap(game g)
     srand(g.levels[g.currentLevel-1].seed);
     char arr[MAPSIZE][MAPSIZE];
     printHashtags();
-    readMap("RandomMap.mp", arr);
+    readMap("map.txt", arr);
     arr[x][y] = 'M';
     
     for(int i = 0; i < nKorridors; i++)
@@ -150,5 +152,5 @@ void makeMap(game g)
         }
     }
 
-    printMapToFile("RandomMap.mp", arr);
+    printMapToFile("map.txt", arr);
 }

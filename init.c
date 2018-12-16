@@ -34,3 +34,23 @@ void initCats(struct catBox *litterBox, int amount, int spawnLocations[]){
 	}
 }
 
+/*================= GENERATE LEVELS ===================
+Initiation function for a game. 
+difficulty can be changed by the variables in here*/
+void generateLevels(int nLevels, game* g)
+{
+	level* levels = (level*) calloc(nLevels, sizeof(level));
+	for(int i = 0; i < nLevels; i++)
+	{
+		levels[i].nCats = i + 1;
+		levels[i].nCheeses = 4 + i * 1;
+		levels[i].points = 0;
+		levels[i].winpoints = 400 + i * 100;
+		levels[i].seed = rand();
+		levels[i].size = 100 + i * 20;
+	}
+	g->currentLevel = 1;
+	g->levels = levels;
+	g->totalPoints = 0;
+	g->nLevels = nLevels;
+}
