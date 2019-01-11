@@ -13,14 +13,14 @@ void poop(char map[][MAPSIZE], mouse* m)
             map[m->pos.y][m->pos.x + 1] = '4';
             break;
         case 's': //DOWN
-            map[m->pos.y -1][m->pos.x] = '2';
+            map[m->pos.y -1][m->pos.x] = '5';
             break; 
+		case 'd': //RIGHT
+			map[m->pos.y][m->pos.x - 1] = '6';
+			break;
         case 'w': //UP
-            map[m->pos.y + 1][m->pos.x] = '8';
+            map[m->pos.y + 1][m->pos.x] = '7';
             break;
-        case 'd': //RIGHT
-            map[m->pos.y][m->pos.x - 1] = '6';
-
     }
     (m->poops)--;
 }
@@ -53,24 +53,25 @@ int moveMouse(char map[][MAPSIZE], game* g, window* w, int input) {
     char *pCurPos = &map[m->pos.y][m->pos.x];
 	if(m->direction == 'a' && map[m->pos.y][m->pos.x - 1] != '#')//LEFT
     {
-        *pCurPos = ' ';
+        *pCurPos = '0';
         helpMoveMouse(m, w, -1, 0);
     }
 	else if(m->direction == 's' && map[m->pos.y + 1][m->pos.x] != '#')//DOWN
     {
-		*pCurPos = ' ';
+		*pCurPos = '1';
         helpMoveMouse(m, w, 0, 1);
     }
-	else if(m->direction == 'w' && map[m->pos.y - 1][m->pos.x] != '#') //UP
-    {
-		*pCurPos = ' ';
-        helpMoveMouse(m, w, 0, -1);
-    }
-    else if(m->direction == 'd' && map[m->pos.y][m->pos.x + 1] != '#') //RIGHT
+	else if (m->direction == 'd' && map[m->pos.y][m->pos.x + 1] != '#') //RIGHT
 	{
-		*pCurPos = ' ';
-        helpMoveMouse(m, w, 1, 0);
-	} else
+		*pCurPos = '2';
+		helpMoveMouse(m, w, 1, 0);
+	}
+	else if (m->direction == 'w' && map[m->pos.y - 1][m->pos.x] != '#') //UP
+	{
+		*pCurPos = '3';
+		helpMoveMouse(m, w, 0, -1);
+	}
+	else
     {
         return stayed; //Gick inte att gå i någon riktning
     }

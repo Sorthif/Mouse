@@ -36,6 +36,7 @@ struct cat {
 	int x;
 	int y;
 	int lastMoved;
+	int foundPoop;
 };
 
 //Coordinates for an abject such as mouse
@@ -86,9 +87,9 @@ typedef struct game {
 enum statuses {dead = 0, walked, stayed, alive, blocked};
 
 // INIT
-mouse initMouse(int spawnLocations[]);
+mouse initMouse();
 window initWindow(int windowWidth, mouse pMouse);
-void initCats(struct catBox *litterBox, int amount, int spawnLocations[]);
+void initCats(struct catBox *litterBox, int amount);
 void generateLevels(int nLevels, game* g);
 void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats);
 
@@ -96,7 +97,6 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats);
 void gameLost(char map[][MAPSIZE], int points);
 int weightedDie(int lastmoved, int percentFwd, int percentLeft, int percentRight, int percentBack);
 int randomMovementGenerator(int num1, int num2, int lastmoved);
-void getSpawnLocations(char map[][MAPSIZE], int arr[20]);
 
 // CATS
 int NPCmovement(char map[][MAPSIZE], struct cat *c, int *points);
@@ -124,6 +124,6 @@ void clearBonus(char arr[MAPSIZE][MAPSIZE], int *x, int *y, int size);
 void makeMap(game g);
 
 // KEYPRESS
-KEYPRESS_DECLARATION;
+//KEYPRESS_DECLARATION;
 
 #endif

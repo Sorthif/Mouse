@@ -1,9 +1,9 @@
 #include "include.h"
 
-mouse initMouse(int spawnLocations[]){
+mouse initMouse(){
     mouse pMouse;
-	pMouse.pos.x = spawnLocations[0];
-	pMouse.pos.y = spawnLocations[1];
+	pMouse.pos.x = 5;
+	pMouse.pos.y = 5;
 	pMouse.poops = 0;
     return pMouse;
 }
@@ -26,11 +26,17 @@ void allocateMemoryForCats(struct catBox *litterBox, int numberOfCats) {
 	}
 }
 
-void initCats(struct catBox *litterBox, int amount, int spawnLocations[]){
-	for (int i = 2, j = 3, k = 0; k < amount; i = i + 2, j = j + 2, k++) {
-		litterBox->cats[k].lastMoved = 1;
-		litterBox->cats[k].x = spawnLocations[i];
-		litterBox->cats[k].y = spawnLocations[j];
+void initCats(char map[][MAPSIZE], struct catBox *litterBox, int amount){
+	int k = 0;
+	for (int i = 0; i < MAPSIZE; i++) {
+		for (int j = 0; j < MAPSIZE; j++) {
+			if (map[i][j] == 'C') {
+				litterBox->cats[k].lastMoved = 1;
+				litterBox->cats[k].x = j;
+				litterBox->cats[k].y = i;
+				k++;
+			}
+		}
 	}
 }
 

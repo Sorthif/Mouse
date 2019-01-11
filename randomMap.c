@@ -146,9 +146,6 @@ void makeMap(game g)
         }else if(i % (nKorridors / nCheeses) == 2)
         {
             arr[x][y] = 'o';
-        }else if(i == nKorridors - 2)
-        {
-            clearBonus(arr, &x, &y, size);
         }
     }
 

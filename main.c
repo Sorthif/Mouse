@@ -14,26 +14,19 @@ int main(void) {
 
 	/*===============LEVELS LOOP==============*/
 	while(lifeStatus == alive) { 
-		int spawnLocations[100];
 		level *mLevel = &(mGame.levels[mGame.currentLevel-1]);
 		struct catBox litterBox;
 
-		//Kommenterar bort this now because Spawnlocations is not ready here
-		//mouse pMouse = initMouse(spawnLocations);
 
-		mouse pMouse;
-		pMouse.pos.x = 5;
-		pMouse.pos.y = 5;
-		pMouse.poops = 0;
+		mouse pMouse = initMouse();
 		
 		mGame.playerMouse = &pMouse;
 		makeMap(mGame);
 		
 		readMap("map.txt", map);
-		getSpawnLocations(map, spawnLocations);
 		
 		allocateMemoryForCats(&litterBox, mLevel->nCats);
-		initCats(&litterBox, mLevel->nCats, spawnLocations);
+		initCats(map, &litterBox, mLevel->nCats);
 
 		//Deklarera Föstret
 		int windowWidth = WINDOW; //Uneccessary variable. It's already #defined

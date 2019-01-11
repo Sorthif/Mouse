@@ -7,7 +7,12 @@ and its representation is instedad printed.
 Returns 0 if it is printed so it is not printed in calling function*/
 int isNotSecretCharacter(char c)
 {
-	char* poopChars = "2468";
+	char* poopChars = "4567";
+	char* scentChars = "0123";
+	if (strchr(scentChars, c)) {
+		printf(" ");
+		return 0;
+	}
 	if(strchr(poopChars, c))
 	{
 		printf(".");
